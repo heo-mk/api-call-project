@@ -72,7 +72,7 @@ export const RepoList: React.FC<RepoListProps> = ({
       </div>
 
       {/* Intersection Observer 감지용 sentinel 요소 */}
-      <div ref={sentinelRef} style={{ height: '1px' }} />
+      <div ref={sentinelRef} className="scroll-sentinel" />
 
       {isFetchingNextPage && (
         <div className="loader-container">
@@ -82,7 +82,7 @@ export const RepoList: React.FC<RepoListProps> = ({
       )}
 
       {!hasNextPage && repos.length > 0 && (
-        <p style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+        <p className="end-of-list-message">
           모든 결과를 불러왔습니다.
         </p>
       )}

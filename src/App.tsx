@@ -86,22 +86,14 @@ function App() {
           <div className="header-actions">
             {/* 에러 유발 토글: 체크하면 다음 즐겨찾기 토글 시 API 실패 시뮬레이션 + 롤백 확인용 */}
             <label
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                fontSize: '0.8rem',
-                color: shouldSimulateError ? 'hsl(0, 80%, 60%)' : 'var(--text-muted)',
-                cursor: 'pointer',
-                fontWeight: 500,
-              }}
+              className={`error-simulate-label${shouldSimulateError ? ' active' : ''}`}
             >
               <AlertTriangle size={14} />
               <input
                 type="checkbox"
+                className="error-simulate-checkbox"
                 checked={shouldSimulateError}
                 onChange={(e) => setShouldSimulateError(e.target.checked)}
-                style={{ accentColor: 'hsl(0, 80%, 60%)' }}
               />
               에러 유발
             </label>
@@ -113,9 +105,9 @@ function App() {
               />
               <span className="slider">
                 {isDarkMode ? (
-                  <Moon size={14} style={{ color: '#fff', marginLeft: '4px' }} />
+                  <Moon size={14} className="theme-icon-moon" />
                 ) : (
-                  <Sun size={14} style={{ color: '#f59e0b', marginLeft: '4px' }} />
+                  <Sun size={14} className="theme-icon-sun" />
                 )}
               </span>
             </label>
@@ -131,10 +123,10 @@ function App() {
             {searchQuery === '' ? (
               <div className="empty-state">
                 <h2>GitHub 레포지토리 검색</h2>
-                <p style={{ marginTop: '0.5rem' }}>
+                <p className="empty-state-subtitle">
                   Vite, TypeScript, React Query 및 Zustand 연동 환경이 구성되었습니다.
                 </p>
-                <p style={{ marginTop: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                <p className="empty-state-hint">
                   검색창에 키워드를 입력하고 검색을 시작해 보세요! (예: react, zustand)
                 </p>
               </div>
@@ -151,7 +143,7 @@ function App() {
               <>
                 {/* mutation 에러 발생 시 롤백 알림 배너: 에러 메시지를 상단에 표시하여 사용자가 실패를 인지할 수 있게 합니다. */}
                 {mutation.isError && (
-                  <div className="error-container" style={{ marginBottom: '1rem' }}>
+                  <div className="error-container error-container--with-margin">
                     <p>⚠️ {mutation.error?.message} (즉시 이전 상태로 롤백되었습니다.)</p>
                   </div>
                 )}
