@@ -1,8 +1,10 @@
-/* 
-   CSS 디자인 시스템 및 테마 정의 
+/*
+   CSS 디자인 시스템 및 테마 정의
    - HSL 기반의 색상 테마를 채택하여 라이트/다크 모드 변환 시 일관된 조화와 제어 편의성을 보장합니다.
    - Flexbox와 Grid 시스템을 사용해 모바일과 데스크톱 화면 모두에 유연하게 대응합니다.
 */
+
+// ─── 1. Design Tokens ────────────────────────────────────────────────────────
 
 :root {
   /* HSL Color Palette (Light Mode) */
@@ -10,7 +12,7 @@
   --primary: hsl(var(--primary-hue), 85%, 60%);
   --primary-hover: hsl(var(--primary-hue), 85%, 50%);
   --primary-glow: hsla(var(--primary-hue), 85%, 60%, 0.15);
-  
+
   --bg: hsl(210, 20%, 98%);
   --surface: hsl(0, 0%, 100%);
   --surface-hover: hsl(210, 20%, 96%);
@@ -23,22 +25,24 @@
   --radius: 12px;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+
+  &.dark {
+    /* HSL Color Palette (Dark Mode) */
+    --bg: hsl(220, 25%, 10%);
+    --surface: hsl(220, 25%, 14%);
+    --surface-hover: hsl(220, 25%, 18%);
+    --text: hsl(220, 15%, 95%);
+    --text-muted: hsl(220, 10%, 65%);
+    --border: hsl(220, 20%, 20%);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --primary-glow: hsla(var(--primary-hue), 85%, 65%, 0.25);
+  }
 }
 
-:root.dark {
-  /* HSL Color Palette (Dark Mode) */
-  --bg: hsl(220, 25%, 10%);
-  --surface: hsl(220, 25%, 14%);
-  --surface-hover: hsl(220, 25%, 18%);
-  --text: hsl(220, 15%, 95%);
-  --text-muted: hsl(220, 10%, 65%);
-  --border: hsl(220, 20%, 20%);
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-  --primary-glow: hsla(var(--primary-hue), 85%, 65%, 0.25);
-}
 
-/* Global resets & Base styles */
+// ─── 2. Global Resets & Base Styles ──────────────────────────────────────────
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -66,12 +70,15 @@ a {
   text-decoration: none;
 }
 
-button, input {
+button,
+input {
   font-family: inherit;
   font-size: inherit;
 }
 
-/* Common Layout Elements */
+
+// ─── 3. Layout ───────────────────────────────────────────────────────────────
+
 .container {
   width: 100%;
   max-width: 1200px;
@@ -86,17 +93,24 @@ button, input {
   top: 0;
   z-index: 10;
   backdrop-filter: blur(8px);
-  background-color: hsla(220, 25%, 14%, 0.8); /* With alpha */
-}
-:root:not(.dark) .header {
-  background-color: hsla(0, 0%, 100%, 0.8);
-}
+  background-color: hsla(220, 25%, 14%, 0.8); /* Dark mode default with alpha */
 
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 4.5rem;
+  :root:not(.dark) & {
+    background-color: hsla(0, 0%, 100%, 0.8);
+  }
+
+  &-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4.5rem;
+  }
+
+  &-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 
 .logo-container {
@@ -108,13 +122,6 @@ button, input {
   color: var(--primary);
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-/* Main Layout */
 .main-content {
   flex: 1;
   padding: 2rem 0;
@@ -124,15 +131,15 @@ button, input {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-}
 
-@media (min-width: 992px) {
-  .dashboard-grid {
+  @media (min-width: 992px) {
     grid-template-columns: 2fr 1fr;
   }
 }
 
-/* Tabs & Filter */
+
+// ─── 4. Tabs & Filter ────────────────────────────────────────────────────────
+
 .tab-container {
   display: flex;
   gap: 0.5rem;
@@ -152,15 +159,17 @@ button, input {
   font-weight: 500;
   color: var(--text-muted);
   transition: var(--transition);
+
+  &.active {
+    background-color: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow);
+  }
 }
 
-.tab-btn.active {
-  background-color: var(--surface);
-  color: var(--text);
-  box-shadow: var(--shadow);
-}
 
-/* Search Box Form */
+// ─── 5. Search Box Form ───────────────────────────────────────────────────────
+
 .search-form {
   display: flex;
   gap: 0.75rem;
@@ -170,31 +179,31 @@ button, input {
 .search-input-wrapper {
   position: relative;
   flex: 1;
-}
 
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--surface);
-  color: var(--text);
-  outline: none;
-  transition: var(--transition);
-}
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: var(--transition);
 
-.search-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow);
-}
+    &:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+  }
 
-.search-icon-inside {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-  pointer-events: none;
+  .search-icon-inside {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
 }
 
 .search-btn {
@@ -209,13 +218,15 @@ button, input {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
 }
 
-.search-btn:hover {
-  background-color: var(--primary-hover);
-}
 
-/* List & Cards */
+// ─── 6. List & Cards ─────────────────────────────────────────────────────────
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -233,19 +244,30 @@ button, input {
   flex-direction: column;
   gap: 0.75rem;
   position: relative;
-}
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--primary-glow);
-}
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-glow);
+  }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  &-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+  }
 }
 
 .repo-name {
@@ -268,17 +290,6 @@ button, input {
   overflow: hidden;
 }
 
-.card-footer {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-top: auto;
-  border-top: 1px solid var(--border);
-  padding-top: 0.75rem;
-}
-
 .footer-item {
   display: flex;
   align-items: center;
@@ -296,18 +307,20 @@ button, input {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    background-color: var(--surface-hover);
+    color: var(--text);
+  }
+
+  &.active {
+    color: hsl(45, 100%, 50%); /* Gold/Yellow for Star */
+  }
 }
 
-.icon-btn:hover {
-  background-color: var(--surface-hover);
-  color: var(--text);
-}
 
-.icon-btn.active {
-  color: hsl(45, 100%, 50%); /* Gold/Yellow for Star */
-}
+// ─── 7. Spinner & Status ─────────────────────────────────────────────────────
 
-/* Spinner & Status */
 .loader-container {
   display: flex;
   justify-content: center;
@@ -339,11 +352,11 @@ button, input {
   border-radius: var(--radius);
   text-align: center;
   margin-bottom: 2rem;
-}
 
-.error-container.dark {
-  background-color: hsl(0, 80%, 10%);
-  color: hsl(0, 80%, 70%);
+  &.dark {
+    background-color: hsl(0, 80%, 10%);
+    color: hsl(0, 80%, 70%);
+  }
 }
 
 .empty-state {
@@ -354,30 +367,32 @@ button, input {
   border-radius: var(--radius);
 }
 
-/* Sidebar / Bookmarks side */
+
+// ─── 8. Sidebar / Bookmarks ───────────────────────────────────────────────────
+
 .sidebar {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
 
-.sidebar-section {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-}
+  &-section {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
 
-.sidebar-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  &-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 
 .badge {
@@ -404,33 +419,43 @@ button, input {
   border-radius: calc(var(--radius) - 4px);
   background-color: var(--bg);
   transition: var(--transition);
+
+  &:hover {
+    border-color: var(--primary);
+  }
+
+  &-title {
+    font-weight: 500;
+    font-size: 0.9rem;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
-.mini-card:hover {
-  border-color: var(--primary);
-}
 
-.mini-card-title {
-  font-weight: 500;
-  font-size: 0.9rem;
-  max-width: 80%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+// ─── 9. Interactive Elements ─────────────────────────────────────────────────
 
-/* Interactive elements */
 .switch {
   position: relative;
   display: inline-block;
   width: 48px;
   height: 24px;
-}
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .slider {
+      background-color: var(--primary);
+
+      &:before {
+        transform: translateX(24px);
+      }
+    }
+  }
 }
 
 .slider {
@@ -446,24 +471,16 @@ button, input {
   display: flex;
   align-items: center;
   padding: 0 4px;
-}
 
-.slider:before {
-  content: "";
-  height: 16px;
-  width: 16px;
-  background-color: var(--surface);
-  transition: .4s;
-  border-radius: 50%;
-  box-shadow: var(--shadow);
-}
-
-input:checked + .slider {
-  background-color: var(--primary);
-}
-
-input:checked + .slider:before {
-  transform: translateX(24px);
+  &:before {
+    content: "";
+    height: 16px;
+    width: 16px;
+    background-color: var(--surface);
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+  }
 }
 
 .button {
@@ -478,18 +495,18 @@ input:checked + .slider:before {
   font-weight: 500;
   cursor: pointer;
   transition: var(--transition);
-}
 
-.button:hover {
-  background-color: var(--surface-hover);
-}
+  &:hover {
+    background-color: var(--surface-hover);
+  }
 
-.button-primary {
-  background-color: var(--primary);
-  color: #fff;
-  border: none;
-}
+  &-primary {
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
 
-.button-primary:hover {
-  background-color: var(--primary-hover);
+    &:hover {
+      background-color: var(--primary-hover);
+    }
+  }
 }

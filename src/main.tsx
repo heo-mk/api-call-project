@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import './index.css'
+import './index.scss'
 import App from './App.tsx'
 
 // QueryClient 인스턴스는 컴포넌트 외부에서 한 번만 생성하여 재렌더링 시 인스턴스가 재생성되는 것을 방지합니다.
