@@ -1,5 +1,7 @@
 # GitFind Dashboard
 
+* **배포 사이트:** [https://github-repo-search-xi.vercel.app/](https://github-repo-search-xi.vercel.app/)
+
 GitHub REST API 기반 레포지토리 검색 대시보드입니다. 키워드로 레포지토리를 검색하고, 무한 스크롤로 결과를 탐색하며, 마음에 드는 레포를 즐겨찾기에 등록해 영구 저장할 수 있습니다.
 
 TanStack Query의 주요 패턴(Infinite Query, Optimistic Update)과 Zustand persist 미들웨어를 실전 구조로 검증하기 위해 만든 프로젝트입니다.
