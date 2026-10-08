@@ -25,6 +25,7 @@
   --radius: 12px;
   --header-height: 4.5rem;
   --card-gap: 1rem;
+  --page-bottom-gap: 2rem;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 
@@ -140,7 +141,7 @@ input {
 
 .main-content {
   flex: 1;
-  padding: var(--card-gap) 0 2rem;
+  padding: var(--card-gap) 0 var(--page-bottom-gap);
 }
 
 .dashboard-grid {
@@ -368,7 +369,7 @@ input {
   color: hsl(0, 80%, 40%);
   border-radius: var(--radius);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--card-gap);
 
   &.dark {
     background-color: hsl(0, 80%, 10%);
@@ -446,7 +447,10 @@ input {
     position: sticky;
     top: calc(var(--header-height) + 1px); // 1px은 .header의 border-bottom 1px
     z-index: 7;
-    background-color: var(--surface);
+    // 위쪽 간격을 배경이 있는 패딩으로 두고 마진으로 상쇄(.search-form과 같은 방식)
+    padding-top: var(--card-gap);
+    margin-top: calc(-1 * var(--card-gap));
+    background-color: var(--bg);
   }
 
   .sidebar-toggle {
@@ -496,7 +500,8 @@ input {
     align-self: start;
     position: sticky;
     top: calc(var(--header-height) + 1px + var(--card-gap));
-    max-height: calc(100vh - var(--header-height) - 1px - calc(2 * var(--card-gap)));
+    // 페이지 끝에서 사이드바 아랫면이 격자 아랫면을 넘지 않게 해 위로 밀리지 않게 함
+    max-height: calc(100vh - var(--header-height) - 1px - var(--card-gap) - var(--page-bottom-gap));
     z-index: 5;
     min-height: 0;
   }
@@ -706,5 +711,5 @@ input {
 
 // App: mutation 에러 배너 하단 여백
 .error-container--with-margin {
-  margin-bottom: 1rem;
+  margin-bottom: var(--card-gap);
 }
