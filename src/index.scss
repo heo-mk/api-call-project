@@ -687,7 +687,9 @@ input {
   background-color: var(--surface);
   font-size: 0.75rem;
   color: var(--text-muted);
-  text-align: right;
+  text-align: left;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 // App: 테마 토글 아이콘
@@ -715,9 +717,9 @@ input {
 // App: 즐겨찾기 실패 토스트 (화면 하단 중앙 고정)
 .bookmark-toast {
   position: fixed;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(var(--card-gap) + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, -50%);
   max-width: min(32rem, calc(100vw - 2 * var(--card-gap)));
   z-index: 20;
   padding: 0.75rem 1rem;
@@ -726,4 +728,7 @@ input {
   color: var(--error-text);
   border-radius: var(--radius);
   text-align: center;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  pointer-events: none;
 }
