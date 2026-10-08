@@ -412,6 +412,14 @@ input {
 }
 
 @media (max-width: 991.98px) {
+  // 접힌 즐겨찾기 줄 높이 = 섹션 border 위·아래 1px×2(382행) + 섹션 padding 1.5rem×2(383행)
+  //   + 제목 줄 글자 1.1rem×line-height 1.5=1.65rem(388행, 이 블록의 .sidebar-toggle) + 제목 padding-bottom 0.5rem(392행)
+  //   + 제목 border-bottom 2px(391행) + 접힘 시 margin-bottom 0(이 블록의 .sidebar:not(.is-open) .sidebar-toggle)
+  // = 1.5rem×2 + 1.65rem + 0.5rem + (1px×2 + 2px)
+  :root {
+    --bookmark-collapsed-height: calc(3rem + 1.65rem + 0.5rem + 4px);
+  }
+
   // grid 칸 안에서는 sticky가 칸을 벗어나면 풀리므로 모바일에서는 flex column으로 전환
   .dashboard-grid {
     display: flex;
@@ -422,12 +430,23 @@ input {
     order: -1;
     position: sticky;
     top: calc(var(--header-height) + 1px); // 1px은 .header의 border-bottom 1px
-    z-index: 5;
+    z-index: 7;
     background-color: var(--surface);
   }
 
   .sidebar-toggle {
     cursor: pointer;
+    line-height: 1.5;
+  }
+
+  // 접힌 즐겨찾기 줄 바로 아래에 검색창 고정 (위쪽 0.75rem은 패딩으로 두고 마진으로 상쇄)
+  .search-form {
+    position: sticky;
+    top: calc(var(--header-height) + 1px + var(--bookmark-collapsed-height) + 0.75rem);
+    margin-top: -0.75rem;
+    padding-top: 0.75rem;
+    background-color: var(--bg);
+    z-index: 6;
   }
 
   .sidebar:not(.is-open) {
