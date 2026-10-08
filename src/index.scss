@@ -106,6 +106,7 @@ input {
     justify-content: space-between;
     align-items: center;
     height: var(--header-height);
+    padding-inline: 1.5rem; // .card padding과 같은 값
   }
 
   &-actions {
@@ -123,6 +124,18 @@ input {
   font-weight: 700;
   font-size: 1.25rem;
   color: var(--primary);
+}
+
+// 모바일: 로고 글자는 눈에만 숨기고 화면 낭독기에는 남긴다 (display: none 사용 안 함)
+@media (max-width: 575.98px) {
+  .logo-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 .main-content {
@@ -643,6 +656,7 @@ input {
   color: var(--text-muted);
   cursor: pointer;
   font-weight: 500;
+  white-space: nowrap;
 
   &.active {
     color: hsl(0, 80%, 60%);

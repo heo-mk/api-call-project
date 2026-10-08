@@ -81,7 +81,7 @@ function App() {
         <div className="header-inner">
           <div className="logo-container">
             <GithubIcon size={28} />
-            <span>GitFind Dashboard</span>
+            <span className="logo-text">GitFind Dashboard</span>
           </div>
           <div className="header-actions">
             {/* 에러 유발 토글: 체크하면 다음 즐겨찾기 토글 시 API 실패 시뮬레이션 + 롤백 확인용 */}
