@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react'
+import React, { useEffect, useId, useState } from 'react'
 import { Bookmark, X, ExternalLink } from 'lucide-react'
 import type { GithubRepo } from '../api/github'
 
@@ -14,6 +14,17 @@ interface BookmarkListProps {
 export const BookmarkList: React.FC<BookmarkListProps> = ({ bookmarks, onRemove }) => {
   const [isOpen, setIsOpen] = useState(false)
   const bodyId = useId()
+
+  // 열린 상태에서 열린 시점 대비 24px 이상 스크롤하면 자동으로 접는다.
+  useEffect(() => {
+    if (!isOpen) return
+    const startY = window.scrollY
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - startY) >= 24) setIsOpen(false)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [isOpen])
 
   return (
     <aside className={`sidebar${isOpen ? ' is-open' : ''}`}>

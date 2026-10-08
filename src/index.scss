@@ -410,8 +410,19 @@ input {
 }
 
 @media (max-width: 991.98px) {
+  // grid 칸 안에서는 sticky가 칸을 벗어나면 풀리므로 모바일에서는 flex column으로 전환
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
   .sidebar {
+    --header-height: calc(4.5rem + 1px); // .header-inner height + .header border-bottom
     order: -1;
+    position: sticky;
+    top: var(--header-height);
+    z-index: 5;
+    background-color: var(--surface);
   }
 
   .sidebar-toggle {
