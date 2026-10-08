@@ -395,6 +395,45 @@ input {
   }
 }
 
+// 토글 버튼: 기존 제목 줄과 같은 모양으로 초기화 (데스크톱에서는 동작 없음)
+.sidebar-toggle {
+  width: 100%;
+  background: none;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    order: -1;
+  }
+
+  .sidebar-toggle {
+    cursor: pointer;
+  }
+
+  .sidebar:not(.is-open) {
+    .sidebar-body {
+      display: none;
+    }
+
+    .sidebar-toggle {
+      margin-bottom: 0;
+    }
+  }
+
+  .sidebar.is-open .sidebar-body {
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+}
+
 .badge {
   background-color: var(--primary-glow);
   color: var(--primary);
