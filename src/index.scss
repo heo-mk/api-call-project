@@ -445,6 +445,31 @@ input {
   }
 }
 
+@media (min-width: 992px) {
+  // 헤더 아래에 고정하고, 칸이 화면보다 길면 목록만 스크롤 (1px은 .header의 border-bottom)
+  .sidebar {
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-height) + 1px + 1rem);
+    max-height: calc(100vh - var(--header-height) - 1px - 2rem);
+    z-index: 5;
+    min-height: 0;
+  }
+
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .sidebar-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
 .badge {
   background-color: var(--primary-glow);
   color: var(--primary);
