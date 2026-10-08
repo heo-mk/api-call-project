@@ -94,9 +94,15 @@ function App() {
                 className="error-simulate-checkbox"
                 checked={shouldSimulateError}
                 onChange={(e) => setShouldSimulateError(e.target.checked)}
+                aria-describedby={shouldSimulateError ? 'error-simulate-hint' : undefined}
               />
-              에러 유발
+              실패 시뮬레이션
             </label>
+            {shouldSimulateError && (
+              <span id="error-simulate-hint" className="error-simulate-hint">
+                별을 누르면 서버 실패를 흉내 내 되돌리기를 보여 줍니다
+              </span>
+            )}
             <label className="switch" aria-label="Toggle Theme">
               <input 
                 type="checkbox" 

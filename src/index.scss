@@ -108,6 +108,7 @@ input {
   }
 
   &-actions {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -629,6 +630,21 @@ input {
   .error-simulate-checkbox {
     accent-color: hsl(0, 80%, 60%);
   }
+}
+
+// App: 실패 시뮬레이션 안내 문구 (헤더 높이를 바꾸지 않도록 띄워서 표시)
+.error-simulate-hint {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  max-width: min(18rem, calc(100vw - 3rem));
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) - 4px);
+  background-color: var(--surface);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: right;
 }
 
 // App: 테마 토글 아이콘
