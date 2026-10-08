@@ -26,6 +26,9 @@
   --header-height: 4.5rem;
   --card-gap: 1rem;
   --page-bottom-gap: 2rem;
+  --error-border: hsl(0, 80%, 60%);
+  --error-bg: hsl(0, 80%, 97%);
+  --error-text: hsl(0, 80%, 40%);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 
@@ -364,9 +367,9 @@ input {
 
 .error-container {
   padding: 2rem;
-  border: 1px dashed hsl(0, 80%, 60%);
-  background-color: hsl(0, 80%, 97%);
-  color: hsl(0, 80%, 40%);
+  border: 1px dashed var(--error-border);
+  background-color: var(--error-bg);
+  color: var(--error-text);
   border-radius: var(--radius);
   text-align: center;
   margin-bottom: var(--card-gap);
@@ -709,7 +712,18 @@ input {
   color: var(--text-muted);
 }
 
-// App: mutation 에러 배너 하단 여백
-.error-container--with-margin {
-  margin-bottom: var(--card-gap);
+// App: 즐겨찾기 실패 토스트 (화면 하단 중앙 고정)
+.bookmark-toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--card-gap) + env(safe-area-inset-bottom, 0px));
+  max-width: min(32rem, calc(100vw - 2 * var(--card-gap)));
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  border: 1px dashed var(--error-border);
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-radius: var(--radius);
+  text-align: center;
 }

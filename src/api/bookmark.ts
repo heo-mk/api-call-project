@@ -8,7 +8,7 @@ export const simulateBookmarkToggle = (shouldError: boolean): Promise<void> => {
     setTimeout(() => {
       if (shouldError) {
         // 에러 토글이 켜져 있으면 서버 오류를 시뮬레이션하여 onError 롤백 경로를 테스트합니다.
-        reject(new Error('서버 오류: 즐겨찾기 변경에 실패했습니다. 롤백됩니다.'))
+        reject(new Error('실패 시뮬레이션: 즐겨찾기 변경에 실패해 이전 상태로 되돌렸습니다.'))
       } else {
         resolve()
       }
