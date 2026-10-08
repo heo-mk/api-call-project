@@ -43,13 +43,13 @@ TanStack Query의 주요 패턴(Infinite Query, Optimistic Update)과 Zustand pe
 
 ```bash
 # 의존성 설치
-npm install
+pnpm install
 
 # 개발 서버 실행
-npm run dev
+pnpm dev
 
 # 프로덕션 빌드
-npm run build
+pnpm build
 ```
 
 별도의 환경 변수나 API 키 설정은 필요하지 않습니다 (GitHub API를 비인증으로 호출).
@@ -75,4 +75,4 @@ npm run build
 
 ## 배포
 
-현재 별도 배포 환경은 없으며, 로컬 실행 및 데모/포트폴리오 용도로 사용 중입니다.
+현재 프론트엔드만 Vercel에 배포했으며(상단의 배포 사이트 주소 참고), 별도의 백엔드는 없습니다.
