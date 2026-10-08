@@ -446,6 +446,16 @@ input {
 }
 
 @media (min-width: 992px) {
+  // 검색창 상단선이 .sidebar 상단선(top 1rem 지점)과 같은 높이에 오도록 위쪽 1rem을 패딩으로 두고 마진으로 상쇄
+  .search-form {
+    position: sticky;
+    top: calc(var(--header-height) + 1px);
+    margin-top: -1rem;
+    padding-top: 1rem;
+    background-color: var(--bg);
+    z-index: 6;
+  }
+
   // 헤더 아래에 고정하고, 칸이 화면보다 길면 목록만 스크롤 (1px은 .header의 border-bottom)
   .sidebar {
     align-self: start;
