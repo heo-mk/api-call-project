@@ -67,6 +67,14 @@ function App() {
   // Optimistic Update 훅: 에러 유발 여부를 주입받아 냙관적 업데이트 또는 롤백 경로를 실행합니다.
   const mutation = useBookmarkMutation(shouldSimulateError)
 
+  // 실패 토스트는 4초 뒤 reset()으로 닫습니다. 새 실패(submittedAt 변경)가 나면 타이머를 다시 시작합니다.
+  const { isError: isMutationError, submittedAt, reset: resetMutation } = mutation
+  useEffect(() => {
+    if (!isMutationError) return
+    const timer = setTimeout(resetMutation, 4000)
+    return () => clearTimeout(timer)
+  }, [isMutationError, submittedAt, resetMutation])
+
   // 현재 mutation이 진행 중인 repo의 id를 추출합니다. 해당 카드에만 isPending prop을 전달하기 위한 용도입니다.
   const pendingRepoId = mutation.isPending ? mutation.variables?.id : null
 
@@ -81,7 +89,7 @@ function App() {
         <div className="header-inner">
           <div className="logo-container">
             <GithubIcon size={28} />
-            <span>GitFind Dashboard</span>
+            <span className="logo-text">GitFind Dashboard</span>
           </div>
           <div className="header-actions">
             {/* 에러 유발 토글: 체크하면 다음 즐겨찾기 토글 시 API 실패 시뮬레이션 + 롤백 확인용 */}
@@ -94,9 +102,15 @@ function App() {
                 className="error-simulate-checkbox"
                 checked={shouldSimulateError}
                 onChange={(e) => setShouldSimulateError(e.target.checked)}
+                aria-describedby={shouldSimulateError ? 'error-simulate-hint' : undefined}
               />
-              에러 유발
+              실패 시뮬레이션
             </label>
+            {shouldSimulateError && (
+              <span id="error-simulate-hint" className="error-simulate-hint">
+                체크하면 별을 누를 때 서버 실패를 흉내 내고 즐겨찾기를 원래대로 되돌립니다
+              </span>
+            )}
             <label className="switch" aria-label="Toggle Theme">
               <input 
                 type="checkbox" 
@@ -141,12 +155,6 @@ function App() {
               </div>
             ) : data ? (
               <>
-                {/* mutation 에러 발생 시 롤백 알림 배너: 에러 메시지를 상단에 표시하여 사용자가 실패를 인지할 수 있게 합니다. */}
-                {mutation.isError && (
-                  <div className="error-container error-container--with-margin">
-                    <p>⚠️ {mutation.error?.message} (즉시 이전 상태로 롤백되었습니다.)</p>
-                  </div>
-                )}
                 <RepoList
                   repos={repos}
                   bookmarkedIds={bookmarkedIds}
@@ -167,6 +175,12 @@ function App() {
           />
         </div>
       </main>
+
+      {mutation.isError && (
+        <div className="bookmark-toast" role="alert">
+          <p>⚠️ {mutation.error?.message}</p>
+        </div>
+      )}
     </div>
   )
 }

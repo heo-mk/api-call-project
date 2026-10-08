@@ -23,6 +23,12 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
 
   --radius: 12px;
+  --header-height: 4.5rem;
+  --card-gap: 1rem;
+  --page-bottom-gap: 2rem;
+  --error-border: hsl(0, 80%, 60%);
+  --error-bg: hsl(0, 80%, 97%);
+  --error-text: hsl(0, 80%, 40%);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 
@@ -103,10 +109,12 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 4.5rem;
+    height: var(--header-height);
+    padding-inline: 1.5rem; // .card padding과 같은 값
   }
 
   &-actions {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -122,15 +130,27 @@ input {
   color: var(--primary);
 }
 
+// 모바일: 로고 글자는 눈에만 숨기고 화면 낭독기에는 남긴다 (display: none 사용 안 함)
+@media (max-width: 575.98px) {
+  .logo-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 .main-content {
   flex: 1;
-  padding: 2rem 0;
+  padding: var(--card-gap) 0 var(--page-bottom-gap);
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--card-gap);
 
   @media (min-width: 992px) {
     grid-template-columns: 2fr 1fr;
@@ -173,7 +193,8 @@ input {
 .search-form {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
+  padding-bottom: var(--card-gap);
 }
 
 .search-input-wrapper {
@@ -230,7 +251,7 @@ input {
 .list-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--card-gap);
 }
 
 .card {
@@ -346,12 +367,12 @@ input {
 
 .error-container {
   padding: 2rem;
-  border: 1px dashed hsl(0, 80%, 60%);
-  background-color: hsl(0, 80%, 97%);
-  color: hsl(0, 80%, 40%);
+  border: 1px dashed var(--error-border);
+  background-color: var(--error-bg);
+  color: var(--error-text);
   border-radius: var(--radius);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--card-gap);
 
   &.dark {
     background-color: hsl(0, 80%, 10%);
@@ -373,7 +394,7 @@ input {
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--card-gap);
 
   &-section {
     background-color: var(--surface);
@@ -395,6 +416,113 @@ input {
   }
 }
 
+// 토글 버튼: 기존 제목 줄과 같은 모양으로 초기화 (데스크톱에서는 동작 없음)
+.sidebar-toggle {
+  width: 100%;
+  background: none;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+@media (max-width: 991.98px) {
+  // 접힌 즐겨찾기 줄 높이 = 섹션 border 위·아래 1px×2(382행) + 섹션 padding 1.5rem×2(383행)
+  //   + 제목 줄 글자 1.1rem×line-height 1.5=1.65rem(388행, 이 블록의 .sidebar-toggle) + 제목 padding-bottom 0.5rem(392행)
+  //   + 제목 border-bottom 2px(391행) + 접힘 시 margin-bottom 0(이 블록의 .sidebar:not(.is-open) .sidebar-toggle)
+  // = 1.5rem×2 + 1.65rem + 0.5rem + (1px×2 + 2px)
+  :root {
+    --bookmark-collapsed-height: calc(3rem + 1.65rem + 0.5rem + 4px);
+  }
+
+  // grid 칸 안에서는 sticky가 칸을 벗어나면 풀리므로 모바일에서는 flex column으로 전환
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    order: -1;
+    position: sticky;
+    top: calc(var(--header-height) + 1px); // 1px은 .header의 border-bottom 1px
+    z-index: 7;
+    // 위쪽 간격을 배경이 있는 패딩으로 두고 마진으로 상쇄(.search-form과 같은 방식)
+    padding-top: var(--card-gap);
+    margin-top: calc(-1 * var(--card-gap));
+    background-color: var(--bg);
+  }
+
+  .sidebar-toggle {
+    cursor: pointer;
+    line-height: 1.5;
+  }
+
+  // 접힌 즐겨찾기 줄 바로 아래에 검색창 고정 (위쪽 0.75rem은 패딩으로 두고 마진으로 상쇄)
+  .search-form {
+    position: sticky;
+    top: calc(var(--header-height) + 1px + var(--bookmark-collapsed-height) + var(--card-gap));
+    margin-top: calc(-1 * var(--card-gap));
+    padding-top: var(--card-gap);
+    background-color: var(--bg);
+    z-index: 6;
+  }
+
+  .sidebar:not(.is-open) {
+    .sidebar-body {
+      display: none;
+    }
+
+    .sidebar-toggle {
+      margin-bottom: 0;
+    }
+  }
+
+  .sidebar.is-open .sidebar-body {
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  // 검색창 상단선이 .sidebar 상단선(top 1rem 지점)과 같은 높이에 오도록 위쪽 1rem을 패딩으로 두고 마진으로 상쇄
+  .search-form {
+    position: sticky;
+    top: calc(var(--header-height) + 1px);
+    margin-top: calc(-1 * var(--card-gap));
+    padding-top: var(--card-gap);
+    background-color: var(--bg);
+    z-index: 6;
+  }
+
+  // 헤더 아래에 고정하고, 칸이 화면보다 길면 목록만 스크롤 (1px은 .header의 border-bottom)
+  .sidebar {
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-height) + 1px + var(--card-gap));
+    // 페이지 끝에서 사이드바 아랫면이 격자 아랫면을 넘지 않게 해 위로 밀리지 않게 함
+    max-height: calc(100vh - var(--header-height) - 1px - var(--card-gap) - var(--page-bottom-gap));
+    z-index: 5;
+    min-height: 0;
+  }
+
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .sidebar-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
 .badge {
   background-color: var(--primary-glow);
   color: var(--primary);
@@ -407,7 +535,7 @@ input {
 .mini-bookmark-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--card-gap);
 }
 
 .mini-card {
@@ -536,6 +664,7 @@ input {
   color: var(--text-muted);
   cursor: pointer;
   font-weight: 500;
+  white-space: nowrap;
 
   &.active {
     color: hsl(0, 80%, 60%);
@@ -544,6 +673,23 @@ input {
   .error-simulate-checkbox {
     accent-color: hsl(0, 80%, 60%);
   }
+}
+
+// App: 실패 시뮬레이션 안내 문구 (헤더 높이를 바꾸지 않도록 띄워서 표시)
+.error-simulate-hint {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  max-width: min(18rem, calc(100vw - 3rem));
+  padding: 0.25rem 0.5rem;
+  border-radius: calc(var(--radius) - 4px);
+  background-color: var(--surface);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: left;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 // App: 테마 토글 아이콘
@@ -568,7 +714,21 @@ input {
   color: var(--text-muted);
 }
 
-// App: mutation 에러 배너 하단 여백
-.error-container--with-margin {
-  margin-bottom: 1rem;
+// App: 즐겨찾기 실패 토스트 (화면 하단 중앙 고정)
+.bookmark-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(32rem, calc(100vw - 2 * var(--card-gap)));
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  border: 1px dashed var(--error-border);
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-radius: var(--radius);
+  text-align: center;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  pointer-events: none;
 }

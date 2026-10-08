@@ -16,7 +16,7 @@ export const useBookmarkMutation = (shouldSimulateError: boolean) => {
   const { toggleBookmark, bookmarks, setBookmarks } = useBookmarkStore()
 
   return useMutation<void, Error, GithubRepo, MutationContext>({
-    mutationFn: (_repo) => simulateBookmarkToggle(shouldSimulateError),
+    mutationFn: () => simulateBookmarkToggle(shouldSimulateError),
 
     onMutate: async (repo) => {
       /*

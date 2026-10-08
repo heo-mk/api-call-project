@@ -4,6 +4,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.scss'
 import App from './App.tsx'
 
+// 새로고침 시 브라우저가 이전 스크롤 위치를 복원하지 않고 맨 위에서 시작하게 함
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+
 // QueryClient 인스턴스는 컴포넌트 외부에서 한 번만 생성하여 재렌더링 시 인스턴스가 재생성되는 것을 방지합니다.
 const queryClient = new QueryClient({
   defaultOptions: {

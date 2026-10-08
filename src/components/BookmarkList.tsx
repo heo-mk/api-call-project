@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useId, useState } from 'react'
 import { Bookmark, X, ExternalLink } from 'lucide-react'
 import type { GithubRepo } from '../api/github'
 
@@ -12,17 +12,38 @@ interface BookmarkListProps {
   검색 결과와 즐겨찾기는 서로 다른 데이터 출처(서버 상태 vs 클라이언트 상태)를 가지므로, 명확한 관심사 분리를 위해 별도 컴포넌트로 분리했습니다.
 */
 export const BookmarkList: React.FC<BookmarkListProps> = ({ bookmarks, onRemove }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const bodyId = useId()
+
+  // 열린 상태에서 열린 시점 대비 24px 이상 스크롤하면 자동으로 접는다.
+  useEffect(() => {
+    if (!isOpen) return
+    const startY = window.scrollY
+    const onScroll = () => {
+      if (Math.abs(window.scrollY - startY) >= 24) setIsOpen(false)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [isOpen])
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${isOpen ? ' is-open' : ''}`}>
       <div className="sidebar-section">
-        <div className="sidebar-title">
+        <button
+          type="button"
+          className="sidebar-title sidebar-toggle"
+          aria-expanded={isOpen}
+          aria-controls={bodyId}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
             <Bookmark size={18} />
             즐겨찾기
           </span>
           <span className="badge">{bookmarks.length}</span>
-        </div>
+        </button>
 
+        <div id={bodyId} className="sidebar-body">
         {bookmarks.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', textAlign: 'center', padding: '1rem 0' }}>
             검색 결과의 ☆ 버튼으로<br />즐겨찾기를 추가해 보세요.
@@ -55,6 +76,7 @@ export const BookmarkList: React.FC<BookmarkListProps> = ({ bookmarks, onRemove 
             ))}
           </div>
         )}
+        </div>
       </div>
     </aside>
   )
