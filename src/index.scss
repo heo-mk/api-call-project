@@ -24,6 +24,7 @@
 
   --radius: 12px;
   --header-height: 4.5rem;
+  --card-gap: 1rem;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 
@@ -126,13 +127,13 @@ input {
 
 .main-content {
   flex: 1;
-  padding: 2rem 0;
+  padding: var(--card-gap) 0 2rem;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--card-gap);
 
   @media (min-width: 992px) {
     grid-template-columns: 2fr 1fr;
@@ -175,7 +176,8 @@ input {
 .search-form {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
+  padding-bottom: var(--card-gap);
 }
 
 .search-input-wrapper {
@@ -232,7 +234,7 @@ input {
 .list-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--card-gap);
 }
 
 .card {
@@ -375,7 +377,7 @@ input {
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--card-gap);
 
   &-section {
     background-color: var(--surface);
@@ -442,9 +444,9 @@ input {
   // 접힌 즐겨찾기 줄 바로 아래에 검색창 고정 (위쪽 0.75rem은 패딩으로 두고 마진으로 상쇄)
   .search-form {
     position: sticky;
-    top: calc(var(--header-height) + 1px + var(--bookmark-collapsed-height) + 0.75rem);
-    margin-top: -0.75rem;
-    padding-top: 0.75rem;
+    top: calc(var(--header-height) + 1px + var(--bookmark-collapsed-height) + var(--card-gap));
+    margin-top: calc(-1 * var(--card-gap));
+    padding-top: var(--card-gap);
     background-color: var(--bg);
     z-index: 6;
   }
@@ -470,8 +472,8 @@ input {
   .search-form {
     position: sticky;
     top: calc(var(--header-height) + 1px);
-    margin-top: -1rem;
-    padding-top: 1rem;
+    margin-top: calc(-1 * var(--card-gap));
+    padding-top: var(--card-gap);
     background-color: var(--bg);
     z-index: 6;
   }
@@ -480,8 +482,8 @@ input {
   .sidebar {
     align-self: start;
     position: sticky;
-    top: calc(var(--header-height) + 1px + 1rem);
-    max-height: calc(100vh - var(--header-height) - 1px - 2rem);
+    top: calc(var(--header-height) + 1px + var(--card-gap));
+    max-height: calc(100vh - var(--header-height) - 1px - calc(2 * var(--card-gap)));
     z-index: 5;
     min-height: 0;
   }
@@ -512,7 +514,7 @@ input {
 .mini-bookmark-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--card-gap);
 }
 
 .mini-card {
