@@ -7,10 +7,13 @@ GitHub REST API 기반 레포지토리 검색 대시보드입니다. 키워드�
 TanStack Query의 주요 패턴(Infinite Query, Optimistic Update)과 Zustand persist 미들웨어를 실전 구조로 검증하기 위해 만든 프로젝트입니다.
 
 ---
-<img width="1346" height="863" alt="KakaoTalk_20260814_170109730_03" src="https://github.com/user-attachments/assets/c0e0d7b8-be34-4915-85d6-f17566557865" />
-<img width="1277" height="1221" alt="KakaoTalk_20260814_170109730" src="https://github.com/user-attachments/assets/95c14261-f012-480a-ab15-266c3006b3a4" />
-<img width="1334" height="1207" alt="KakaoTalk_20260814_170109730_01" src="https://github.com/user-attachments/assets/68f05332-b742-4bd5-b161-6d0ea43839df" />
-
+<img width="1304" height="524" alt="스크린샷 2026-10-09 113424" src="https://github.com/user-attachments/assets/0ff936af-d326-4302-98bb-2aeb45145e10" />
+<img width="1216" height="1074" alt="스크린샷 2026-10-09 113435" src="https://github.com/user-attachments/assets/afcb7698-5977-42f1-867b-981ee3743e93" />
+<img width="1281" height="1113" alt="스크린샷 2026-10-09 113501" src="https://github.com/user-attachments/assets/e25feb01-8421-4817-8271-e030c86ed643" />
+<img width="385" height="849" alt="스크린샷 2026-10-09 113551" src="https://github.com/user-attachments/assets/95f57722-5090-4914-b6c4-b2ce8ea1e988" />
+<img width="392" height="847" alt="스크린샷 2026-10-09 113601" src="https://github.com/user-attachments/assets/2e5bce9c-da0f-4c4b-ba5d-85d37e953cd0" />
+<img width="387" height="846" alt="스크린샷 2026-10-09 113615" src="https://github.com/user-attachments/assets/1278a522-be17-4ce5-9726-5c6e1d7dd394" />
+<img width="389" height="847" alt="스크린샷 2026-10-09 113637" src="https://github.com/user-attachments/assets/d54ed0e2-49ce-4766-b46f-98834185e69f" />
 
 ## 주요 기능
 
