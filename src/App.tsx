@@ -175,7 +175,7 @@ function App() {
                           } 뒤 다시 시도해 주세요.`
                         : `오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`}
                     </p>
-                    <button type="button" onClick={() => fetchNextPage()}>
+                    <button type="button" className="retry-btn" onClick={() => fetchNextPage()}>
                       다시 시도
                     </button>
                   </div>
