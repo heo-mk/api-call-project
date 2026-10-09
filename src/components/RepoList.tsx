@@ -8,6 +8,7 @@ interface RepoListProps {
   onToggleBookmark: (repo: GithubRepo) => void
   isFetchingNextPage: boolean
   hasNextPage: boolean
+  isFetchNextPageError?: boolean // 다음 페이지 요청이 실패한 상태에서는 자동 재요청을 막습니다.
   fetchNextPage: () => void
   pendingRepoId?: number // 현재 mutation 진행 중인 repo id: 해당 카드에만 isPending을 전달합니다.
 }
@@ -22,6 +23,7 @@ export const RepoList: React.FC<RepoListProps> = ({
   onToggleBookmark,
   isFetchingNextPage,
   hasNextPage,
+  isFetchNextPageError = false,
   fetchNextPage,
   pendingRepoId,
 }) => {
@@ -38,7 +40,7 @@ export const RepoList: React.FC<RepoListProps> = ({
     */
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage && !isFetchNextPageError) {
           fetchNextPage()
         }
       },
@@ -47,7 +49,7 @@ export const RepoList: React.FC<RepoListProps> = ({
 
     observer.observe(sentinel)
     return () => observer.disconnect()
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage])
+  }, [hasNextPage, isFetchingNextPage, isFetchNextPageError, fetchNextPage])
 
   if (repos.length === 0) {
     return (

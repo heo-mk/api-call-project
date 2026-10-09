@@ -7,6 +7,7 @@ import { SearchInput } from './components/SearchInput'
 import { RepoList } from './components/RepoList'
 import { BookmarkList } from './components/BookmarkList'
 import { useRepoSearch } from './hooks/useRepoSearch'
+import { RateLimitError } from './api/github'
 import type { GithubRepo } from './api/github'
 
 // Lucide v1.x에서는 브랜드 아이콘(Github, Discord 등)이 패키지에서 제거되었으므로, 일관된 스타일링과 의존성 제거를 위해 SVG 컴포넌트로 직접 선언하여 사용합니다.
@@ -52,7 +53,7 @@ function App() {
   }, [isDarkMode])
 
   // useInfiniteQuery 반환값에서 pages 배열을 flat하게 병합하여 단일 repos 배열을 구성합니다.
-  const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useRepoSearch(searchQuery)
+  const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError } = useRepoSearch(searchQuery)
 
   // data.pages는 각 페이지의 GithubSearchResponse 배열이므로 flatMap으로 items를 하나의 배열로 통합합니다.
   const repos = data?.pages.flatMap((page) => page.items) ?? []
@@ -149,7 +150,7 @@ function App() {
                 <div className="spinner" />
                 <span>검색 결과를 불러오는 중...</span>
               </div>
-            ) : isError ? (
+            ) : isError && !data ? (
               <div className="error-container">
                 <p>오류가 발생했습니다: {error instanceof Error ? error.message : '알 수 없는 오류'}</p>
               </div>
@@ -161,9 +162,24 @@ function App() {
                   onToggleBookmark={handleToggleBookmark}
                   isFetchingNextPage={isFetchingNextPage}
                   hasNextPage={hasNextPage}
+                  isFetchNextPageError={isFetchNextPageError}
                   fetchNextPage={fetchNextPage}
                   pendingRepoId={pendingRepoId ?? undefined}
                 />
+                {isFetchNextPageError && (
+                  <div className="error-container">
+                    <p>
+                      {error instanceof RateLimitError
+                        ? `GitHub 검색 요청 한도(분당 10회)에 도달했습니다. ${
+                            error.retryAfterSeconds === null ? '잠시' : `약 ${error.retryAfterSeconds}초`
+                          } 뒤 다시 시도해 주세요.`
+                        : `오류가 발생했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`}
+                    </p>
+                    <button type="button" onClick={() => fetchNextPage()}>
+                      다시 시도
+                    </button>
+                  </div>
+                )}
               </>
             ) : null}
           </div>
