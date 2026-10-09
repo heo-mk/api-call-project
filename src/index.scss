@@ -380,6 +380,30 @@ input {
   }
 }
 
+.retry-btn {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--primary-glow);
+  }
+}
+
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;

@@ -25,6 +25,34 @@ export interface GithubSearchResponse {
   items: GithubRepo[]
 }
 
+// 검색 API 한도 초과(403/429) 전용 오류입니다. 대기 시간을 알 수 없으면 retryAfterSeconds는 null입니다.
+export class RateLimitError extends Error {
+  retryAfterSeconds: number | null
+
+  constructor(retryAfterSeconds: number | null) {
+    super('GitHub 검색 요청 한도에 도달했습니다.')
+    this.name = 'RateLimitError'
+    this.retryAfterSeconds = retryAfterSeconds
+  }
+}
+
+// retry-after(초)를 우선 쓰고, 없으면 x-ratelimit-reset(epoch 초)에서 현재 시각(nowMs)을 뺀 값을 반환합니다. 둘 다 없으면 null입니다.
+export const getRetryAfterSeconds = (
+  retryAfter: string | null,
+  reset: string | null,
+  nowMs: number
+): number | null => {
+  const retryAfterSeconds = retryAfter === null ? NaN : Number(retryAfter)
+  if (Number.isFinite(retryAfterSeconds)) {
+    return Math.max(0, Math.ceil(retryAfterSeconds))
+  }
+  const resetSeconds = reset === null ? NaN : Number(reset)
+  if (Number.isFinite(resetSeconds)) {
+    return Math.max(0, Math.ceil(resetSeconds - nowMs / 1000))
+  }
+  return null
+}
+
 // GitHub Search Repositories API를 호출하는 헬퍼 함수입니다.
 export const searchRepos = async (
   query: string,
@@ -45,6 +73,15 @@ export const searchRepos = async (
   )
 
   if (!response.ok) {
+    if (response.status === 403 || response.status === 429) {
+      throw new RateLimitError(
+        getRetryAfterSeconds(
+          response.headers.get('retry-after'),
+          response.headers.get('x-ratelimit-reset'),
+          Date.now()
+        )
+      )
+    }
     throw new Error('GitHub API 요청에 실패했습니다.')
   }
 
