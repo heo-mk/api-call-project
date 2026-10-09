@@ -10,10 +10,13 @@ TanStack Query의 주요 패턴(Infinite Query, Optimistic Update)과 Zustand pe
 <img width="1304" height="524" alt="스크린샷 2026-10-09 113424" src="https://github.com/user-attachments/assets/0ff936af-d326-4302-98bb-2aeb45145e10" />
 <img width="1216" height="1074" alt="스크린샷 2026-10-09 113435" src="https://github.com/user-attachments/assets/afcb7698-5977-42f1-867b-981ee3743e93" />
 <img width="1281" height="1113" alt="스크린샷 2026-10-09 113501" src="https://github.com/user-attachments/assets/e25feb01-8421-4817-8271-e030c86ed643" />
+<img width="383" height="843" alt="스크린샷 2026-10-09 113941" src="https://github.com/user-attachments/assets/fc49c096-21bd-430d-9755-83d5d3e3f41a" />
 <img width="385" height="849" alt="스크린샷 2026-10-09 113551" src="https://github.com/user-attachments/assets/95f57722-5090-4914-b6c4-b2ce8ea1e988" />
 <img width="392" height="847" alt="스크린샷 2026-10-09 113601" src="https://github.com/user-attachments/assets/2e5bce9c-da0f-4c4b-ba5d-85d37e953cd0" />
 <img width="387" height="846" alt="스크린샷 2026-10-09 113615" src="https://github.com/user-attachments/assets/1278a522-be17-4ce5-9726-5c6e1d7dd394" />
 <img width="389" height="847" alt="스크린샷 2026-10-09 113637" src="https://github.com/user-attachments/assets/d54ed0e2-49ce-4766-b46f-98834185e69f" />
+<img width="383" height="843" alt="스크린샷 2026-10-09 113941" src="https://github.com/user-attachments/assets/c9ae6edf-cd12-43bb-966f-ca3e26ddfb5a" />
+
 
 ## 주요 기능
 
